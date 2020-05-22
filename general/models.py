@@ -18,5 +18,18 @@ class Nutriment(models.Model):
     sugars_quantity = models.FloatField(verbose_name="Sucre", default=0)
     fat_quantity = models.FloatField(verbose_name="Matières Grasses/Lipides", default=0)
 
+
 class Product(models.Model):
-    pass
+    id = models.BigIntegerField(unique=True, primary_key=True)
+    categories = models.ManyToManyField(Category, related_name="Products")
+    name = models.CharField(max_length=100, verbose_name="Nom")
+    brand = models.CharField(max_length=100, verbose_name="Marque")
+    nutrition_grade = models.CharField(max_length=1, verbose_name="Nutri-Score")
+    ingredients = models.TextField(verbose_name="Liste des ingrédients")
+    nutriment = models.OneToOneField(Nutriment, on_delete=models.CASCADE, default=0, related_name='nutriment')
+    url = models.URLField(verbose_name="Lien vers Open Food Facts")
+    small_image_url = models.URLField(verbose_name="URL small image")
+    large_image_url = models.URLField(verbose_name="URL large image")
+
+    def __str__(self):
+        return self.name
