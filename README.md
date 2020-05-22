@@ -1,12 +1,11 @@
 [![Badge langage](https://img.shields.io/static/v1?label=langage&message=Français&color=blue)](https://github.com/GuillaumeStaub/pyhealthy_web/blob/master/README_fr.md)
-)
 [![Badge langage](https://img.shields.io/static/v1?label=langage&message=English&color=blue)](https://github.com/GuillaumeStaub/pyhealthy_web/blob/master/README.md)
-)
 
 
-#PyHealthy with Django for Pur Beurre
 
-**Link to the application :**
+# PyHealthy with Django for Pur Beurre
+
+**Link to the application : *Coming soon* **
 
 ## Why this program
 PyHealthy a web application from the company Pur Beurre.This application, queries the **[OpenFoodFacts](https://fr.openfoodfacts.org)** API to find a healthier substitute for a desired food. So if you want to find a substitute for your favorite American drink you just have to fill it in and the magic app returns you a much better product for your extra pounds. In addition to displaying the substitute, **PyHealthy**, offers, its **nutrition grade**, an image of it, its nutriments and a link to Open Food Facts to view more information.

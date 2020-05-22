@@ -1,8 +1,8 @@
 [![Badge langage](https://img.shields.io/static/v1?label=langage&message=Français&color=blue)](https://github.com/GuillaumeStaub/pyhealthy_web/blob/master/README_fr.md)
 [![Badge langage](https://img.shields.io/static/v1?label=langage&message=English&color=blue)](https://github.com/GuillaumeStaub/pyhealthy_web/blob/master/README.md)
 
-#PyHealthy with Django for PurBeurre
-**Link to the application :**
+# PyHealthy with Django for PurBeurre
+**Link to the application : *Bientôt disponible***
 
 ## Pourquoi ce programme?
 PyHealthy une application web de la société Pur Beurre. Cette application, interroge l'API d'[OpenFoodFacts](https://fr.openfoodfacts.org) afin de trouver un substitut plus sain à un aliment recherché. Donc si si vous voulez trouver un substitut à votre boisson américaine préférée vous avez juste à la renseigner et magie l'application vous retourne un équivalent bien meilleur pour vos kilos en trop. En plus d'afficher le substitut, PyHealthy de Pur Beurre, vous propose, son NutriScore, sa photo , ses nutriments et un lien vers Open Food Facts pour visualiser d'avantages d'informations.
