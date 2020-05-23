@@ -40,3 +40,6 @@ class Utils:
             else:
                 pass
         return clean_nutriments
+
+    def clean_categories(self, cat):
+        return [cat.lstrip('fr: ').capitalize() for cat in cat.split(',') if not cat.startswith((' en:', 'en:'))]

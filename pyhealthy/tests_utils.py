@@ -49,6 +49,8 @@ fake_received_nutriments_prepared = {
     "other_nutriment2": "X,Y",
     "other_nutriment3": "X,Y"
 }
+fake_received_categories = "fr:Boissons,Snacks,en:Sugar Snacks,Boissons chaudes,en: Hot Drink"
+
 fake_received_data = {"products": [{"code": 1,
                                     "product_name_fr": "name",
                                     "brands": "brand_name",
@@ -71,7 +73,7 @@ fake_result_filtered_nutriments = {'saturated_fat_quantity': "3,5",
                                    "sugars_quantity": "2,5",
                                    "salt_quantity": "1,8"
                                    }
-
+fake_result_filtered_categories = ["Boissons", "Snacks", "Boissons chaudes"]
 fake_result_filtered_data = [{"id": 1,
                               "name": "name",
                               "brand": "brand_name",
@@ -127,5 +129,9 @@ def test_clean_nutriments_return_good_format(initialize_utils_class):
 
 
 def test_clean_nutriments_prepared_return_good_format(initialize_utils_class):
-    assert initialize_utils_class.clean_nutriments(**fake_received_nutriments_prepared) == fake_result_filtered_nutriments
+    assert initialize_utils_class.clean_nutriments(
+        **fake_received_nutriments_prepared) == fake_result_filtered_nutriments
 
+
+def test_clean_categories_return_good_format(initialize_utils_class):
+    assert initialize_utils_class.clean_categories(fake_received_categories) == fake_result_filtered_categories
