@@ -6,6 +6,8 @@ verify_ssl = true
 [dev-packages]
 pytest-django = "*"
 pytest = "*"
+pytest-cov = "*"
+coverage = "*"
 
 [packages]
 django = "*"

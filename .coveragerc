@@ -1,0 +1,5 @@
+[run]
+omit =
+
+include = pyhealthy/utils.py
+          general/models.py
