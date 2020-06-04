@@ -1,23 +1,11 @@
 import pytest
-import requests
-from .utils import Utils
+from ..clean import CleanData
 
 
 @pytest.fixture(autouse=True)
-def initialize_utils_class():
-    utils = Utils("Pizza")
-    return utils
-
-
-class MockRequestsGet:
-    def __init__(self, url=None, params=None, result=None, st_code=200):
-        self.result = result
-        self.st_code = st_code
-
-    def json(self):
-        if self.st_code != 200:
-            raise requests.exceptions.HTTPError
-        return self.result
+def initialize_clean_data_class():
+    cleaner = CleanData()
+    return cleaner
 
 
 results_download = {
@@ -116,60 +104,22 @@ fake_result_filtered_data = [{"id": 1,
                               "categories": fake_result_filtered_categories,
                               }]
 
-
-def test_download_status_is_ok(monkeypatch, initialize_utils_class):
-    correct_result = [{"product_name": "product_1"}, {"product_name": "product_2"}]
-
-    def mock_response_ok(*args, **kwargs):
-        return MockRequestsGet(result=results_download["RESULTS_OK"])
-
-    monkeypatch.setattr('requests.get', mock_response_ok)
-
-    assert initialize_utils_class.download() == correct_result
+def test_clean_nutriments_return_good_format(initialize_clean_data_class):
+    assert initialize_clean_data_class.clean_nutriments(**fake_received_nutriments) == fake_result_filtered_nutriments
 
 
-def test_download_return_status_not_ok(monkeypatch, initialize_utils_class, capsys):
-    exception_request_stdout = "There is a problem with the OFF servor or your connection"
-
-    def mock_response_not_ok(*args, **kwargs):
-        return MockRequestsGet(st_code=400)
-
-    monkeypatch.setattr('requests.get', mock_response_not_ok)
-
-    initialize_utils_class.download()
-    captured = capsys.readouterr()
-    assert captured.out == exception_request_stdout
-
-
-def test_download_with_keyerror_in_result(monkeypatch, initialize_utils_class, capsys):
-    exception_stdout = "There is a problem with the OFF data return"
-
-    def mock_response_keyerror(*args, **kwargs):
-        return MockRequestsGet(result=results_download["RESULTS_KEYERROR"])
-
-    monkeypatch.setattr('requests.get', mock_response_keyerror)
-
-    initialize_utils_class.download()
-    captured = capsys.readouterr()
-    assert captured.out == exception_stdout
-
-
-def test_clean_nutriments_return_good_format(initialize_utils_class):
-    assert initialize_utils_class.clean_nutriments(**fake_received_nutriments) == fake_result_filtered_nutriments
-
-
-def test_clean_nutriments_prepared_return_good_format(initialize_utils_class):
-    assert initialize_utils_class.clean_nutriments(
+def test_clean_nutriments_prepared_return_good_format(initialize_clean_data_class):
+    assert initialize_clean_data_class.clean_nutriments(
         **fake_received_nutriments_prepared) == fake_result_filtered_nutriments
 
 
-def test_clean_categories_return_good_format(initialize_utils_class):
-    assert initialize_utils_class.clean_categories(fake_received_categories) == fake_result_filtered_categories
+def test_clean_categories_return_good_format(initialize_clean_data_class):
+    assert initialize_clean_data_class.clean_categories(fake_received_categories) == fake_result_filtered_categories
 
 
-def test_clean_select_good_products(initialize_utils_class):
-    assert len(initialize_utils_class.clean(fake_received_data)) == 1
+def test_clean_select_good_products(initialize_clean_data_class):
+    assert len(initialize_clean_data_class.clean(fake_received_data)) == 1
 
 
-def test_clean_return_good_format(initialize_utils_class):
-    assert initialize_utils_class.clean(fake_received_data) == fake_result_filtered_data
+def test_clean_return_good_format(initialize_clean_data_class):
+    assert initialize_clean_data_class.clean(fake_received_data) == fake_result_filtered_data

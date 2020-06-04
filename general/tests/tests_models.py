@@ -10,7 +10,7 @@ class CategoryModelTest(TestCase):
         Category.objects.create(name='Boissons')
 
     def test_name_label(self):
-        category = Category.objects.get(id=1)
+        category = Category.objects.get(name='Boissons')
         field_label = category._meta.get_field('name').verbose_name
         assert field_label == 'Catégorie'
 
@@ -19,12 +19,12 @@ class CategoryModelTest(TestCase):
         assert field_label_plural == "Catégories"
 
     def test_name_max_length(self):
-        category = Category.objects.get(id=1)
+        category = Category.objects.get(name='Boissons')
         max_length = category._meta.get_field('name').max_length
         assert max_length == 80
 
     def test_object_name_is_name_category(self):
-        category = Category.objects.get(id=1)
+        category = Category.objects.get(name='Boissons')
         expected_object_name = f'{category.name}'
         assert expected_object_name == str(category)
 
@@ -33,30 +33,30 @@ class NutrimentModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         # Set up non-modified objects used by all test methods
-        Nutriment.objects.create(saturated_fat_quantity=12, sugars_quantity=10, fat_quantity=22)
+        Nutriment.objects.create(saturated_fat_quantity=12.0, sugars_quantity=10.0, fat_quantity=22.0)
 
     def test_saturated_fat_quantity_label_(self):
-        nutriment = Nutriment.objects.get(id=1)
+        nutriment = Nutriment.objects.get(id=3)
         field_label = nutriment._meta.get_field('saturated_fat_quantity').verbose_name
         assert field_label == 'Acides gras saturés'
 
     def test_salt_quantity_label(self):
-        nutriment = Nutriment.objects.get(id=1)
+        nutriment = Nutriment.objects.get(id=3)
         field_label = nutriment._meta.get_field('salt_quantity').verbose_name
         assert field_label == 'Sel'
 
     def test_sugars_quantity_label(self):
-        nutriment = Nutriment.objects.get(id=1)
+        nutriment = Nutriment.objects.get(id=3)
         field_label = nutriment._meta.get_field('sugars_quantity').verbose_name
         assert field_label == 'Sucre'
 
     def test_fat_quantity_label(self):
-        nutriment = Nutriment.objects.get(id=1)
+        nutriment = Nutriment.objects.get(id=3)
         field_label = nutriment._meta.get_field('fat_quantity').verbose_name
         assert field_label == 'Matières Grasses/Lipides'
 
     def test_label_default_value_is_zero(self):
-        nutriment = Nutriment.objects.get(id=1)
+        nutriment = Nutriment.objects.get(id=3)
         salt_value = nutriment.salt_quantity
         assert salt_value == 0
 
