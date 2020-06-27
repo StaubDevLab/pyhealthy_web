@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="fr">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>{% block title %}{% endblock %}</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic" rel="stylesheet" type="text/css" />
+        <!-- Third party plugin CSS-->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'dist/css/styles.css' %}" rel="stylesheet" />
+    </head>
+    {% load widget_tweaks %}
+    <body id="page-top">
+    <div class="modal fade" id="connexionModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Se connecter</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% if error %}
+                    <p><strong>Utilisateur inconnu ou mauvais de mot de passe.</strong></p>
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                    Vous êtes connecté, {{ user.username }} !
+                {% else %}
+                    <form method="post" action="." id="formLogin">
+                    {% csrf_token %}
+                    {% for field in form.login.visible_fields %}
+                            <div class='form-group'>
+                               {{ field.label_tag }}<span style="color: red">*</span>
+
+                                {% if form.is_bound %}
+                                     {% if error %}
+                                        {% render_field field class="form-control is-invalid" %}
+                                        {% for error  in field.errors%}
+                                            <div class='invalid-feedback'>
+                                                {{error}}
+                                            </div>
+                                        {% endfor %}
+                                        {% if field.help_text %}
+                                            {{field}}  {{ field.help_text }}
+                                        {% endif %}
+                                     {% else%}
+                                        {% render_field field class="form-control is-valid" %}
+                                     {% endif %}
+                                {% else %}
+                                    {% render_field field class="form-control" %}
+
+
+                                 {% endif %}
+
+                            </div>
+                        {% endfor %}
+
+
+                {% endif %}
+                </form>
+            </div>
+            <div class="modal-footer">
+                 {% if user.is_authenticated %}
+                   <button type="submit"  class="btn btn-secondary" id="logout">Se déconnecter</button>
+                 {% else %}
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="submit" form="formLogin" class="btn btn-primary" id="login">Connexion</button>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+        {% block nav %}
+            <nav class="navbar navbar-expand-lg navbar-light fixed-top py-1 d-flex justify-content-around flex-nowrap " id="mainNav">
+                <div class="container mx-0" style="">
+                    <a class="navbar-brand js-scroll-trigger" href="#page-top"><img src="{% static 'dist/assets/img/logo.png' %}" width="70px" height="70px" class="p-0 m-0"></a>
+
+
+                </div>
+                 <div class="nav navbar-nav d-flex justify-content-between flex-nowrap flex-row" >
+                    <div class='input-group d-flex justify-content-start d-inline-block'>
+                        <input  type="text" value="" placeholder="Rechercher un produit" id="searchBar">
+                        <button id="shearchButton"><i id="searchIcon"  class="fas fa-search"></i></button>
+                        <style>
+
+
+                        </style>
+
+
+                    </div>
+
+                    <button type="button" class="btn  m-0 p-0 d-inline-block" data-toggle="modal" data-target="#connexionModal" id="logs" style="width: 32px; box-shadow: none">
+                        <i class="far fa-user-circle" style="font-size: 2rem;"></i>
+
+                    </button>
+
+
+                 </div>
+                        </div>
+                    </div>
+            </nav>
+        {% endblock %}
+
+        <!-- Masthead-->
+        {% block header %}
+
+
+        {% endblock %}
+
+        <!-- About-->
+        {% block content %}
+
+        {% endblock %}
+
+        {% block footer %}
+            <!-- Footer-->
+            <footer class="bg-light py-5">
+                <div class="container"><div class="small text-center text-muted">Copyright © 2020 - Start Bootstrap</div></div>
+            </footer>
+        {% endblock %}
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+        <!-- Third party plugin JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="{% static 'dist/js/scripts.js' %}"></script>
+    </body>
+</html>
