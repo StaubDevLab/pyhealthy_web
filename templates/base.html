@@ -1,3 +1,4 @@
+{% load recaptcha3 %}
 <!DOCTYPE html>
 {% load static %}
 <html lang="fr">
@@ -7,8 +8,7 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>{% block title %}{% endblock %}</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
@@ -18,101 +18,66 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{% static 'dist/css/styles.css' %}" rel="stylesheet" />
+
     </head>
-    {% load widget_tweaks %}
-    <body id="page-top">
-    <div class="modal fade" id="connexionModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Se connecter</h5>
-                <button type="button" class="close" data-dismiss="modal">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                {% if error %}
-                    <p><strong>Utilisateur inconnu ou mauvais de mot de passe.</strong></p>
-                {% endif %}
-
-                {% if user.is_authenticated %}
-                    Vous êtes connecté, {{ user.username }} !
-                {% else %}
-                    <form method="post" action="." id="formLogin">
-                    {% csrf_token %}
-                    {% for field in form.login.visible_fields %}
-                            <div class='form-group'>
-                               {{ field.label_tag }}<span style="color: red">*</span>
-
-                                {% if form.is_bound %}
-                                     {% if error %}
-                                        {% render_field field class="form-control is-invalid" %}
-                                        {% for error  in field.errors%}
-                                            <div class='invalid-feedback'>
-                                                {{error}}
-                                            </div>
-                                        {% endfor %}
-                                        {% if field.help_text %}
-                                            {{field}}  {{ field.help_text }}
-                                        {% endif %}
-                                     {% else%}
-                                        {% render_field field class="form-control is-valid" %}
-                                     {% endif %}
-                                {% else %}
-                                    {% render_field field class="form-control" %}
 
 
-                                 {% endif %}
-
-                            </div>
-                        {% endfor %}
-
-
-                {% endif %}
-                </form>
-            </div>
-            <div class="modal-footer">
-                 {% if user.is_authenticated %}
-                   <button type="submit"  class="btn btn-secondary" id="logout">Se déconnecter</button>
-                 {% else %}
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                <button type="submit" form="formLogin" class="btn btn-primary" id="login">Connexion</button>
-                {% endif %}
-
-            </div>
-        </div>
-    </div>
-</div>
+    {% include "users/login.html" %}
+    {% include "users/signup.html" %}
 
         {% block nav %}
+
             <nav class="navbar navbar-expand-lg navbar-light fixed-top py-1 d-flex justify-content-around flex-nowrap " id="mainNav">
+
+
                 <div class="container mx-0" style="">
                     <a class="navbar-brand js-scroll-trigger" href="#page-top"><img src="{% static 'dist/assets/img/logo.png' %}" width="70px" height="70px" class="p-0 m-0"></a>
 
 
                 </div>
                  <div class="nav navbar-nav d-flex justify-content-between flex-nowrap flex-row" >
-                    <div class='input-group d-flex justify-content-start d-inline-block'>
+                    <div class='input-group d-flex justify-content-end d-inline-block' id="groupSearch">
                         <input  type="text" value="" placeholder="Rechercher un produit" id="searchBar">
                         <button id="shearchButton"><i id="searchIcon"  class="fas fa-search"></i></button>
-                        <style>
 
-
-                        </style>
 
 
                     </div>
 
-                    <button type="button" class="btn  m-0 p-0 d-inline-block" data-toggle="modal" data-target="#connexionModal" id="logs" style="width: 32px; box-shadow: none">
+                    <button type="button" class="btn  m-0 pd-3 d-inline-block" data-toggle="modal" data-target="#connexionModal" id="logs" style=" box-shadow: none">
                         <i class="far fa-user-circle" style="font-size: 2rem;"></i>
+                    {% if user.is_authenticated %}
+                    </button>
+                     <button type="button" class="btn  m-0 pd-3 d-inline-block" data-toggle="modal" id="logs" style=" box-shadow: none">
+                        <i class="fas fa-carrot" style="font-size: 2rem;"></i>
 
                     </button>
+                    <a href="users/ajax_logout" class="btn  m-0 pd-3 d-inline-block"  id="logout" style=" box-shadow: none">
+                        <i class="fas fa-sign-out-alt" style="font-size: 2rem;"></i>
+
+                    </a>
+                    {% endif %}
+
+
 
 
                  </div>
                         </div>
                     </div>
             </nav>
+            {% if messages %}
+            <div id="alert">
+            {% for message in messages %}
+
+
+
+                <div class="alert alert-success" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Félicitations! </strong> {{ message }}!
+                </div>
+             {% endfor %}
+            </div>
+          {% endif %}
         {% endblock %}
 
         <!-- Masthead-->
@@ -142,4 +107,5 @@
         <!-- Core theme JS-->
         <script src="{% static 'dist/js/scripts.js' %}"></script>
     </body>
+<script src="{% static 'scriptLog.js' %}"></script>
 </html>

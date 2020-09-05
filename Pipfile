@@ -14,6 +14,9 @@ django = "*"
 requests = "*"
 psycopg2-binary = "*"
 django-widget-tweaks = "*"
+django-recaptcha = "*"
+django-recaptcha3 = "*"
+django-password-validators = "*"
 
 [requires]
 python_version = "3.7"

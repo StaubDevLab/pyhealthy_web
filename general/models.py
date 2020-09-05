@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from users.models import CustomUser
+from django.conf import settings
 
 
 # Create your models here.
@@ -37,7 +39,7 @@ class Product(models.Model):
 
 
 class FavoriteUser(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     base_product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='substituted')
     substitute_product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='substitute')
 

@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from django.utils.translation import gettext_lazy as _
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -35,11 +37,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_password_validators',
+    'django_password_validators.password_history',
     'general',
     'utils',
     'widget_tweaks',
+    'users',
+    'captcha',
+    'snowpenguin.django.recaptcha3',
 ]
-
+AUTH_USER_MODEL = 'users.CustomUser'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
+AUTHENTICATION_BACKENDS = ['users.backends.EmailBackend']
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -48,9 +58,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'users.middleware.messages_middleware'
 ]
 
 ROOT_URLCONF = 'pyhealthy.urls'
+RECAPTCHA_PRIVATE_KEY = '6LeBjbQZAAAAAIVaxxqXvjUVS2cZS_uLpJt5efRA'
+RECAPTCHA_PUBLIC_KEY = '6LeBjbQZAAAAAPqEBvEtv1q64F1oqXMrc6PpMKfa'
+RECAPTCHA_DEFAULT_ACTION = 'generic'
+RECAPTCHA_SCORE_THRESHOLD = 0.5
 
 TEMPLATES = [
     {
@@ -89,23 +104,23 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django_password_validators.password_character_requirements.password_validation'
+                '.PasswordCharacterValidator',
+        'OPTIONS': {
+            'min_length_digit': 2,
+            'min_length_alpha': 7,
+            'min_length_special': 0,
+            'min_length_lower': 1,
+            'min_length_upper': 1,
+            'special_characters': "[~!@#$%^&*()_+{}\":;'[]"
+        }
     },
 ]
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr-FR'
 
 TIME_ZONE = 'UTC'
 

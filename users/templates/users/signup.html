@@ -1,0 +1,89 @@
+{% load widget_tweaks %}
+{% load recaptcha3 %}
+<div class="modal fade" id="inscriptionModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">S'inscrire</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% if error %}
+                    <p><strong>Utilisateur inconnu ou mauvais de mot de passe.</strong></p>
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                    Vous êtes connecté, {{ user.username }} !
+                {% else %}
+                    <form method="post" action="." id="formSingUp">
+                    {% csrf_token %}
+                    {% for field in form.join.visible_fields %}
+                            <div class='form-group'>
+                               {{ field.label_tag }}<span style="color: red">*</span>
+
+                                {% if form.is_bound %}
+                                     {% if error %}
+                                        {% render_field field class="form-control is-invalid" %}
+                                        {% for error  in field.errors %}
+                                            <div class='invalid-feedback'>
+                                                {{error}}
+                                            </div>
+                                        {% endfor %}
+                                        {% if field.help_text %}
+                                            {{field}}  {{ field.help_text }}
+                                        {% endif %}
+                                     {% else%}
+                                        {% render_field field class="form-control is-valid" %}
+                                     {% endif %}
+                                {% else %}
+                                    {% if field.name == "password_signup" %}
+                                        <div class="input-group mb-3" >
+                                            {% render_field field class="form-control" %}
+                                        <div class="input-group-append" id="group-password">
+                                            <span class="input-group-text" id="basic-addon2"><i class="fas fa-eye"></i></span>
+                                        </div>
+                                        </div>
+                                    {% elif field.name == "confirm_password" %}
+                                        <div class="input-group mb-3">
+                                            {% render_field field class="form-control" %}
+                                        <div class="input-group-append" id="group-confirm-password">
+                                            <span class="input-group-text" id="basic-addon3"><i class="fas fa-eye"></i></span>
+                                        </div>
+                                        </div>
+                                    {% else %}
+                                        {% render_field field class="form-control" %}
+                                    {% endif %} 
+
+
+
+                                 {% endif %}
+
+
+                            </div>
+                        {% endfor %}
+                        <div id="message" class="my-2">
+        <h5> Le mot de passe doit contenir:</h5>
+        <p id='length' class='invalidPass'>Au minimum 9 caractères</p>
+         <p id='letter' class='invalidPass'>Une lettre minuscule</p>
+        <p id='capital' class='invalidPass'>Une lettre majuscule</p>
+        <p id='number' class='invalidPass'>Un nombre</p>
+      </div>
+
+                {% endif %}
+                </form>
+            <p>Déjà inscrit ? <a href="" class='' data-dismiss="modal" data-toggle="modal" data-target="#connexionModal" >Se connecter</a></p>
+            </div>
+            <div class="modal-footer">
+                 {% if user.is_authenticated %}
+                   <a href="/users/ajax_logout"  class="btn btn-secondary" id="logout">Se déconnecter</a>
+                 {% else %}
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="submit" form="formSingUp" class="btn btn-primary" id="signuBtn">S'inscrire</button>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
