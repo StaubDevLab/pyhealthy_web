@@ -58,14 +58,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'users.middleware.messages_middleware'
+    'users.middleware.messages_middleware',
 ]
 
-ROOT_URLCONF = 'pyhealthy.urls'
-RECAPTCHA_PRIVATE_KEY = '6LeBjbQZAAAAAIVaxxqXvjUVS2cZS_uLpJt5efRA'
-RECAPTCHA_PUBLIC_KEY = '6LeBjbQZAAAAAPqEBvEtv1q64F1oqXMrc6PpMKfa'
-RECAPTCHA_DEFAULT_ACTION = 'generic'
-RECAPTCHA_SCORE_THRESHOLD = 0.5
+
 
 TEMPLATES = [
     {
